@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -14,4 +16,4 @@ class Todo(Base):
     completed: Mapped[bool] = mapped_column(default=False)
     description: Mapped[str | None] = mapped_column(String(500), nullable=True)
     priority: Mapped[int] = mapped_column(default=1)
-    
+    due_date: Mapped[datetime | None] = mapped_column(nullable=True)
