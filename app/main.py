@@ -3,7 +3,11 @@ from app.database import engine
 from app.models import Base
 from app.routes import router
 
-app = FastAPI()
+app = FastAPI(
+    title="Task Management API",
+    description="A RESTful API for managing tasks and user data",
+    version="1.0.0",
+)
 
 Base.metadata.create_all(bind=engine)
 
