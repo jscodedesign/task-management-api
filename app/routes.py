@@ -4,7 +4,6 @@ from sqlalchemy import select
 
 from app.database import SessionLocal
 from app.models import Todo
-from app.schemas import TodoCreate
 from app.schemas import TodoCreate, TodoUpdate
 
 router = APIRouter()
