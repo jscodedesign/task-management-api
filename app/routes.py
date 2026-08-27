@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from app.database import SessionLocal
-from app.models import Todo
-from app.schemas import TodoCreate, TodoUpdate
+from app.models import Task
+from app.schemas import TaskCreate, TaskUpdate, TaskResponse
 
 router = APIRouter()
 
@@ -17,80 +17,88 @@ def get_db():
         db.close()
 
 
-@router.post("/todos")
-def create_todo(todo: TodoCreate, db: Session = Depends(get_db)):
-    new_todo = Todo(
-        title=todo.title
+@router.post("/tasks", response_model=TaskResponse)
+def create_task(task: TaskCreate, db: Session = Depends(get_db)):
+    new_task = Task(
+        title=task.title
     )
 
-    db.add(new_todo)
+    db.add(new_task)
     db.commit()
-    db.refresh(new_todo)
+    db.refresh(new_task)
 
-    return new_todo
-
-@router.get("/todos")
-def get_todos(db: Session = Depends(get_db)):
-    statement = select(Todo)
-
-    result = db.execute(statement)
-
-    todos = result.scalars().all()
-
-    return todos
+    return new_task
 
 
-
-@router.get("/todos/{todo_id}")
-def get_todo(todo_id: int, db: Session = Depends(get_db)):
-    statement = select(Todo).where(Todo.id == todo_id)
+@router.get("/tasks", response_model=list[TaskResponse])
+def get_tasks(db: Session = Depends(get_db)):
+    statement = select(Task)
 
     result = db.execute(statement)
 
-    todo = result.scalar_one_or_none()
+    tasks = result.scalars().all()
 
-    return todo
-
-
+    return tasks
 
 
-@router.delete("/todos/{todo_id}")
-def delete_todo(todo_id: int, db: Session = Depends(get_db)):
-    statement = select(Todo).where(Todo.id == todo_id)
+@router.get("/tasks/{task_id}", response_model=TaskResponse)
+def get_task(task_id: int, db: Session = Depends(get_db)):
+    statement = select(Task).where(Task.id == task_id)
+
     result = db.execute(statement)
 
-    todo = result.scalar_one_or_none()
+    task = result.scalar_one_or_none()
 
-    if todo is None:
-        raise HTTPException(status_code=404, detail="Todo nicht gefunden")
+    if task is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found"
+        )
 
-    db.delete(todo)
+    return task
+
+
+@router.delete("/tasks/{task_id}")
+def delete_task(task_id: int, db: Session = Depends(get_db)):
+    statement = select(Task).where(Task.id == task_id)
+    result = db.execute(statement)
+
+    task = result.scalar_one_or_none()
+
+    if task is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found"
+        )
+
+    db.delete(task)
     db.commit()
 
-    return {"message": "Todo gelöscht"}
+    return {"message": "Task deleted"}
 
 
-
-
-
-@router.put("/todos/{todo_id}")
-def update_todo(
-    todo_id: int,
-    todo_update: TodoUpdate,
+@router.put("/tasks/{task_id}", response_model=TaskResponse)
+def update_task(
+    task_id: int,
+    task_update: TaskUpdate,
     db: Session = Depends(get_db)
 ):
-    statement = select(Todo).where(Todo.id == todo_id)
+    statement = select(Task).where(Task.id == task_id)
     result = db.execute(statement)
 
-    todo = result.scalar_one_or_none()
+    task = result.scalar_one_or_none()
 
-    if todo is None:
-        raise HTTPException(status_code=404, detail="Todo nicht gefunden")
+    if task is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found"
+        )
 
-    todo.title = todo_update.title
-    todo.completed = todo_update.completed
+    task.title = task_update.title
+    task.completed = task_update.completed
 
     db.commit()
-    db.refresh(todo)
+    db.refresh(task)
 
-    return todo
+    return task
+

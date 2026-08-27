@@ -1,13 +1,13 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class TodoCreate(BaseModel):
+class TaskCreate(BaseModel):
     title: str
 
 
-class TodoUpdate(BaseModel):
+class TaskUpdate(BaseModel):
     title: str | None = None
     completed: bool | None = None
     description: str | None = None
@@ -15,7 +15,9 @@ class TodoUpdate(BaseModel):
     due_date: datetime | None = None
 
 
-class TodoResponse(BaseModel):
+class TaskResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     completed: bool
