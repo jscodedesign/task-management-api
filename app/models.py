@@ -8,8 +8,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class Todo(Base):
-    __tablename__ = "todos"
+class Task(Base):
+    __tablename__ = "tasks"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(200))
