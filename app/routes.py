@@ -13,7 +13,12 @@ from app.schemas import (
     UserLogin,
     TokenResponse,
 )
-from app.auth import hash_password, verify_password, create_access_token
+from app.auth import (
+    hash_password, 
+    verify_password, 
+    create_access_token,
+    get_current_user_id,
+)
 
 
 router = APIRouter()
@@ -91,11 +96,12 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 @router.post("/tasks", response_model=TaskResponse)
 def create_task(
     task: TaskCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
 ):
     new_task = Task(
         title=task.title,
-        user_id=1
+        user_id=user_id,
     )
 
     db.add(new_task)

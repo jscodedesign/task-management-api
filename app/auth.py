@@ -1,12 +1,17 @@
 from datetime import datetime, timedelta, timezone
 
+from fastapi import Depends
 from jose import jwt
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 
 
 SECRET_KEY = "dev-secret-key-change-later"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -44,3 +49,8 @@ def get_user_id_from_token(token: str) -> int:
 
     return int(payload["sub"])
 
+
+def get_current_user_id(
+    token: str = Depends(oauth2_scheme),
+) -> int:
+    return get_user_id_from_token(token)
