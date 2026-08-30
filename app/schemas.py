@@ -5,6 +5,9 @@ from pydantic import BaseModel, ConfigDict
 
 class TaskCreate(BaseModel):
     title: str
+    description: int | None = None
+    priority: int = 1
+    due_date: datetime | None = None
 
 
 class TaskUpdate(BaseModel):
