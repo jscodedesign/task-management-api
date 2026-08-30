@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import bcrypt
 from dotenv import load_dotenv
 from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer , HTTPAuthorizationCredentials
 from jose import jwt
 
 load_dotenv()
@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+oauth2_scheme = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
@@ -54,6 +54,7 @@ def get_user_id_from_token(token: str) -> int:
 
 
 def get_current_user_id(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
 ) -> int:
-    return get_user_id_from_token(token)
+    return get_user_id_from_token(credentials.credentials)
+
