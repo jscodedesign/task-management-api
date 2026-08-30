@@ -14,8 +14,8 @@ from app.schemas import (
     TokenResponse,
 )
 from app.auth import (
-    hash_password, 
-    verify_password, 
+    hash_password,
+    verify_password,
     create_access_token,
     get_current_user_id,
 )
@@ -101,6 +101,9 @@ def create_task(
 ):
     new_task = Task(
         title=task.title,
+        description=task.description,
+        priority=task.priority,
+        due_date=task.due_date,
         user_id=user_id,
     )
 
@@ -112,8 +115,11 @@ def create_task(
 
 
 @router.get("/tasks", response_model=list[TaskResponse])
-def get_tasks(db: Session = Depends(get_db)):
-    statement = select(Task)
+def get_tasks(
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
+):
+    statement = select(Task).where(Task.user_id == user_id)
 
     result = db.execute(statement)
 
@@ -125,9 +131,13 @@ def get_tasks(db: Session = Depends(get_db)):
 @router.get("/tasks/{task_id}", response_model=TaskResponse)
 def get_task(
     task_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
 ):
-    statement = select(Task).where(Task.id == task_id)
+    statement = select(Task).where(
+        Task.id == task_id,
+        Task.user_id == user_id
+    )
 
     result = db.execute(statement)
 
@@ -146,9 +156,13 @@ def get_task(
 def update_task(
     task_id: int,
     task_update: TaskUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
 ):
-    statement = select(Task).where(Task.id == task_id)
+    statement = select(Task).where(
+        Task.id == task_id,
+        Task.user_id == user_id
+    )
 
     result = db.execute(statement)
 
@@ -160,8 +174,20 @@ def update_task(
             detail="Task not found"
         )
 
-    task.title = task_update.title
-    task.completed = task_update.completed
+    if task_update.title is not None:
+        task.title = task_update.title
+
+    if task_update.completed is not None:
+        task.completed = task_update.completed
+
+    if task_update.description is not None:
+        task.description = task_update.description
+
+    if task_update.priority is not None:
+        task.priority = task_update.priority
+
+    if task_update.due_date is not None:
+        task.due_date = task_update.due_date
 
     db.commit()
     db.refresh(task)
@@ -172,9 +198,13 @@ def update_task(
 @router.delete("/tasks/{task_id}")
 def delete_task(
     task_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
 ):
-    statement = select(Task).where(Task.id == task_id)
+    statement = select(Task).where(
+        Task.id == task_id,
+        Task.user_id == user_id
+    )
 
     result = db.execute(statement)
 
