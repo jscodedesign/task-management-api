@@ -8,7 +8,8 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 from app.models import Base, User
-from app.routes import get_db
+from app.database import get_db
+from app.auth import hash_password
 
 
 load_dotenv(".env.test")
@@ -27,7 +28,7 @@ def client():
 
     test_user = User(
         username="testuser",
-        password_hash="testpassword"
+        password_hash=hash_password("testpassword")
     )
 
     db.add(test_user)

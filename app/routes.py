@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from app.database import SessionLocal
+from app.database import get_db
 from app.models import Task, User
 from app.schemas import (
     TaskCreate,
@@ -22,14 +22,6 @@ from app.auth import (
 
 
 router = APIRouter()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 # =========================
