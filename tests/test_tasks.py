@@ -96,3 +96,81 @@ def test_get_task_not_found(client):
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Task not found"}
+
+
+def test_login_wrong_password(client):
+    response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "wrongpassword"
+        }
+    )
+
+    assert response.status_code == 401
+
+
+def test_login_unknown_user(client):
+    response = client.post(
+        "/login",
+        json={
+            "username": "unknownuser",
+            "password": "testpassword"
+        }
+    )
+
+    assert response.status_code == 401
+
+
+def test_tasks_without_token():
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    with TestClient(app) as test_client:
+        response = test_client.get("/tasks")
+
+    assert response.status_code == 401
+
+
+def test_user_cannot_access_other_users_task(client, second_client):
+    response = client.post(
+        "/tasks",
+        json={"title": "Private task"},
+    )
+
+    task_id = response.json()["id"]
+
+    response = second_client.get(f"/tasks/{task_id}")
+
+    assert response.status_code == 404
+
+
+def test_user_cannot_update_other_users_task(client, second_client):
+    response = client.post(
+        "/tasks",
+        json={"title": "Private task"},
+    )
+
+    task_id = response.json()["id"]
+
+    response = second_client.put(
+        f"/tasks/{task_id}",
+        json={"title": "Hacked task"},
+    )
+
+    assert response.status_code == 404
+
+
+def test_user_cannot_delete_other_users_task(client, second_client):
+    response = client.post(
+        "/tasks",
+        json={"title": "Private task"},
+    )
+
+    task_id = response.json()["id"]
+
+    response = second_client.delete(
+        f"/tasks/{task_id}"
+    )
+
+    assert response.status_code == 404

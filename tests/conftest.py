@@ -28,7 +28,7 @@ def client():
 
     test_user = User(
         username="testuser",
-        password_hash=hash_password("testpassword")
+        password_hash=hash_password("testpassword"),
     )
 
     db.add(test_user)
@@ -48,8 +48,8 @@ def client():
             "/login",
             json={
                 "username": "testuser",
-                "password": "testpassword"
-            }
+                "password": "testpassword",
+            },
         )
 
         token = login_response.json()["access_token"]
@@ -63,3 +63,40 @@ def client():
     app.dependency_overrides.clear()
     db.close()
     Base.metadata.drop_all(bind=engine)
+
+
+@pytest.fixture
+def second_client(client):
+    db = TestingSessionLocal()
+
+    second_user = User(
+        username="seconduser",
+        password_hash=hash_password("secondpassword")
+    )
+
+    db.add(second_user)
+    db.commit()
+    db.refresh(second_user)
+
+    app.dependency_overrides[get_db] = lambda: db
+
+    with TestClient(app) as test_client:
+        login_response = test_client.post(
+            "/login",
+            json={
+                "username": "seconduser",
+                "password": "secondpassword",
+            }
+        )
+
+        token = login_response.json()["access_token"]
+
+        test_client.headers.update(
+            {"Authorization": f"Bearer {token}"}
+        )
+
+        yield test_client
+
+    app.dependency_overrides.clear()
+    db.close()
+
