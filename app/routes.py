@@ -85,7 +85,7 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 # TASKS
 # =========================
 
-@router.post("/tasks", response_model=TaskResponse)
+@router.post("/tasks", response_model=TaskResponse, status_code=201)
 def create_task(
     task: TaskCreate,
     db: Session = Depends(get_db),
