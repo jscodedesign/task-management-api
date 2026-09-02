@@ -1,20 +1,20 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TaskCreate(BaseModel):
-    title: str
-    description: str | None = None
-    priority: int = 1
+    title: str = Field(min_length=3, max_length=200)
+    description: str | None = Field(default=None, max_length=500)
+    priority: int = Field(default=1, ge=1, le=5)
     due_date: datetime | None = None
 
 
 class TaskUpdate(BaseModel):
-    title: str | None = None
+    title: str | None = Field(default=None, min_length=3, max_length=200)
     completed: bool | None = None
-    description: str | None = None
-    priority: int | None = None
+    description: str | None = Field(default=None, max_length=500)
+    priority: int | None = Field(default=None, ge=1, le=5)
     due_date: datetime | None = None
 
 
@@ -30,8 +30,8 @@ class TaskResponse(BaseModel):
 
 
 class UserCreate(BaseModel):
-    username: str
-    password: str
+    username: str = Field(min_length=3, max_length=50)
+    password: str = Field(min_length=8)
 
 
 class UserResponse(BaseModel):
@@ -42,8 +42,8 @@ class UserResponse(BaseModel):
 
 
 class UserLogin(BaseModel):
-    username: str
-    password: str
+    username: str = Field(min_length=3, max_length=50)
+    password: str = Field(min_length=8)
 
 
 class TokenResponse(BaseModel):
