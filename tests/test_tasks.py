@@ -174,3 +174,21 @@ def test_user_cannot_delete_other_users_task(client, second_client):
     )
 
     assert response.status_code == 404
+
+
+def test_create_user(client):
+    response = client.post(
+        "/users",
+        json={
+            "username": "newuser",
+            "password": "newpassword"
+        }
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["username"] == "newuser"
+    assert "id" in data
+    assert "password" not in data
