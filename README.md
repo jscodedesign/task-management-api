@@ -15,6 +15,7 @@ The project provides JWT-based authentication, user-specific task management, da
 - **JWT**
 - **Pytest**
 - **Uvicorn**
+- **Docker**
 
 ## Features
 
@@ -35,7 +36,7 @@ The project provides JWT-based authentication, user-specific task management, da
 
 ## Project Structure
 
-    todo-app/
+    task-management-api/
     │
     ├── alembic/
     │   ├── versions/
@@ -65,7 +66,7 @@ The project provides JWT-based authentication, user-specific task management, da
 ### 1. Clone the repository
 
     git clone <your-repository-url>
-    cd todo-app
+    cd task-management-api
 
 ### 2. Create a virtual environment
 
@@ -228,6 +229,16 @@ The tests cover the API functionality and help ensure that existing behavior rem
 
 > **Security:** Never commit real credentials, secret keys, database passwords, or other sensitive configuration to the repository.
 
+## Docker
+
+The project includes Docker configuration for running the API and PostgreSQL together.
+
+Start the containers with:
+
+    docker compose up --build
+
+Docker Desktop with the WSL 2 based engine is required.
+
 ## Development
 
 The project is currently focused on the backend/API layer.
@@ -240,6 +251,5 @@ Potential future improvements include:
 - Pagination
 - Improved error handling
 - Additional test coverage
-- Docker support
 - CI/CD with GitHub Actions
 - Production deployment
