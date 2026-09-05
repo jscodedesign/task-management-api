@@ -192,3 +192,92 @@ def test_create_user(client):
     assert data["username"] == "newuser"
     assert "id" in data
     assert "password" not in data
+
+
+def test_create_user_duplicate_username(client):
+    response = client.post(
+        "/users",
+        json={
+            "username": "testuser",
+            "password": "newpassword"
+        }
+    )
+
+    assert response.status_code == 400
+    assert response.json() == {
+        "detail": "Username already exists"
+    }
+
+
+def test_create_user_password_too_short(client):
+    response = client.post(
+        "/users",
+        json={
+            "username": "newuser",
+            "password": "short"
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_create_user_username_too_short(client):
+    response = client.post(
+        "/users",
+        json={
+            "username": "ab",
+            "password": "password123"
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_create_task_title_too_short(client):
+    response = client.post(
+        "/tasks",
+        json={
+            "title": "ab"
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_create_task_priority_too_low(client):
+    response = client.post(
+        "/tasks",
+        json={
+            "title": "Test task",
+            "priority": 0
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_create_task_priority_too_high(client):
+    response = client.post(
+        "/tasks",
+        json={
+            "title": "Test task",
+            "priority": 6
+        }
+    )
+
+    assert response.status_code == 422
+
+
+def test_create_task_without_token():
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    with TestClient(app) as test_client:
+        response = test_client.post(
+            "/tasks",
+            json={
+                "title": "Test task"
+            }
+        )
+
+    assert response.status_code == 401
