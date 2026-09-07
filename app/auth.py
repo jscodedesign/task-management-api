@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 import bcrypt
 from dotenv import load_dotenv
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt
 
@@ -48,17 +48,23 @@ def create_access_token(user_id: int) -> str:
 
 
 def get_user_id_from_token(token: str) -> int:
-    payload = jwt.decode(
-        token,
-        SECRET_KEY,
-        algorithms=[ALGORITHM]
-    )
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
 
-    return int(payload["sub"])
+        return int(payload["sub"])
+
+    except (jwt.JWTError, ValueError, KeyError):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token"
+        )
 
 
 def get_current_user_id(
     credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
 ) -> int:
     return get_user_id_from_token(credentials.credentials)
-

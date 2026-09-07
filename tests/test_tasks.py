@@ -281,3 +281,17 @@ def test_create_task_without_token():
         )
 
     assert response.status_code == 401
+
+
+def test_tasks_with_invalid_token():
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    with TestClient(app) as test_client:
+        test_client.headers.update(
+            {"Authorization": "Bearer invalid-token"}
+        )
+
+        response = test_client.get("/tasks")
+
+    assert response.status_code == 401
