@@ -82,6 +82,30 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 
 
 # =========================
+# CURRENT USER
+# =========================
+
+@router.get("/users/me", response_model=UserResponse)
+def get_current_user(
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
+):
+    statement = select(User).where(User.id == user_id)
+
+    result = db.execute(statement)
+
+    user = result.scalar_one_or_none()
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    return user
+
+
+# =========================
 # TASKS
 # =========================
 
