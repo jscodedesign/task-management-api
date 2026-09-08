@@ -122,6 +122,18 @@ def test_login_unknown_user(client):
     assert response.status_code == 401
 
 
+def test_get_current_user(client):
+    response = client.get("/users/me")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["username"] == "testuser"
+    assert "id" in data
+    assert "password" not in data
+
+
 def test_tasks_without_token():
     from fastapi.testclient import TestClient
     from app.main import app
