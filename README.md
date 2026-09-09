@@ -57,6 +57,7 @@ The project provides JWT-based authentication, user-specific task management, da
     │   ├── conftest.py
     │   └── test_tasks.py
     │
+    ├── .env.example
     ├── .gitignore
     ├── requirements.txt
     └── README.md
@@ -65,7 +66,7 @@ The project provides JWT-based authentication, user-specific task management, da
 
 ### 1. Clone the repository
 
-    git clone <your-repository-url>
+    git clone https://github.com/jscodedesign/task-management-api.git
     cd task-management-api
 
 ### 2. Create a virtual environment
@@ -238,18 +239,3 @@ Start the containers with:
     docker compose up --build
 
 Docker Desktop with the WSL 2 based engine is required.
-
-## Development
-
-The project is currently focused on the backend/API layer.
-
-Potential future improvements include:
-
-- Refresh token support
-- More granular authorization
-- Task filtering and sorting
-- Pagination
-- Improved error handling
-- Additional test coverage
-- CI/CD with GitHub Actions
-- Production deployment
