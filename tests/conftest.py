@@ -2,15 +2,14 @@ import os
 
 import pytest
 from dotenv import load_dotenv
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from fastapi.testclient import TestClient
 
+from app.auth import hash_password
+from app.database import get_db
 from app.main import app
 from app.models import Base, User
-from app.database import get_db
-from app.auth import hash_password
-
 
 load_dotenv(".env.test")
 

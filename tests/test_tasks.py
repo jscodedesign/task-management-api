@@ -136,6 +136,7 @@ def test_get_current_user(client):
 
 def test_tasks_without_token():
     from fastapi.testclient import TestClient
+
     from app.main import app
 
     with TestClient(app) as test_client:
@@ -282,6 +283,7 @@ def test_create_task_priority_too_high(client):
 
 def test_create_task_without_token():
     from fastapi.testclient import TestClient
+
     from app.main import app
 
     with TestClient(app) as test_client:
@@ -297,6 +299,7 @@ def test_create_task_without_token():
 
 def test_tasks_with_invalid_token():
     from fastapi.testclient import TestClient
+
     from app.main import app
 
     with TestClient(app) as test_client:

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import bcrypt
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import jwt
 
 load_dotenv()
