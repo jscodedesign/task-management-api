@@ -1,9 +1,9 @@
 # Task Management API
 
-[![Python Version](https://shields.io)](https://python.org)
-[![FastAPI](https://shields.io)](https://tiangolo.com)
-[![PostgreSQL](https://shields.io)](https://postgresql.org)
-[![Docker](https://shields.io)](https://docker.com)
+[![Python Version](https://shields.io)](https://www.python.org)
+[![FastAPI](https://shields.io)](https://fastapi.tiangolo.com)
+[![PostgreSQL](https://shields.io)](https://www.postgresql.org)
+[![Docker](https://shields.io)](https://www.docker.com)
 
 A RESTful API for managing tasks and users, built with **FastAPI** and **PostgreSQL**.
 
