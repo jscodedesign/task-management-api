@@ -1,5 +1,10 @@
 # Task Management API
 
+[![Python Version](https://shields.io)](https://python.org)
+[![FastAPI](https://shields.io)](https://tiangolo.com)
+[![PostgreSQL](https://shields.io)](https://postgresql.org)
+[![Docker](https://shields.io)](https://docker.com)
+
 A RESTful API for managing tasks and users, built with **FastAPI** and **PostgreSQL**.
 
 The project provides JWT-based authentication, user-specific task management, database migrations with Alembic, request validation with Pydantic, and automated testing with pytest.
