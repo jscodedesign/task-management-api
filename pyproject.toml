@@ -1,2 +1,5 @@
+[tool.ruff]
+exclude = ["alembic/versions/"]
+
 [tool.ruff.lint]
 ignore = ["B008"]
