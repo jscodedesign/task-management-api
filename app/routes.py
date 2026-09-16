@@ -195,13 +195,13 @@ def update_task(
     if task_update.completed is not None:
         task.completed = task_update.completed
 
-    if task_update.description is not None:
+    if "description" in task_update.model_fields_set:
         task.description = task_update.description
 
     if task_update.priority is not None:
         task.priority = task_update.priority
 
-    if task_update.due_date is not None:
+    if "due_date" in task_update.model_fields_set:
         task.due_date = task_update.due_date
 
     db.commit()
