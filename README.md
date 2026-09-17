@@ -19,16 +19,18 @@ The project provides JWT-based authentication, user-specific task management, da
 
 ## Tech Stack
 
-- **Python**
-- **FastAPI**
-- **PostgreSQL**
-- **SQLAlchemy**
-- **Alembic**
-- **Pydantic**
-- **JWT**
-- **Pytest**
-- **Uvicorn**
-- **Docker**
+| Technology | Purpose |
+|:---|:---|
+| **Python** | Programming language |
+| **FastAPI** | REST API framework |
+| **PostgreSQL** | Relational database |
+| **SQLAlchemy** | ORM / database interaction |
+| **Alembic** | Database migrations |
+| **Pydantic** | Request and response validation |
+| **JWT** | Authentication |
+| **Pytest** | Automated testing |
+| **Uvicorn** | ASGI server |
+| **Docker** | Containerization |
 
 ## Features
 
@@ -49,31 +51,39 @@ The project provides JWT-based authentication, user-specific task management, da
 
 ## Project Structure
 
-    task-management-api/
-    │
-    ├── alembic/
-    │   ├── versions/
-    │   ├── env.py
-    │   ├── script.py.mako
-    │   └── README
-    │
-    ├── app/
-    │   ├── auth.py
-    │   ├── database.py
-    │   ├── main.py
-    │   ├── models.py
-    │   ├── routes.py
-    │   ├── schemas.py
-    │   └── __init__.py
-    │
-    ├── tests/
-    │   ├── conftest.py
-    │   └── test_tasks.py
-    │
-    ├── .env.example
-    ├── .gitignore
-    ├── requirements.txt
-    └── README.md
+ task-management-api/
+│
+├── .github/
+│   └── workflows/
+│
+├── alembic/
+│   ├── versions/
+│   ├── env.py
+│   ├── script.py.mako
+│   └── README
+│
+├── app/
+│   ├── auth.py
+│   ├── database.py
+│   ├── main.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── schemas.py
+│   └── __init__.py
+│
+├── tests/
+│   ├── conftest.py
+│   └── test_tasks.py
+│
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
+├── alembic.ini
+├── pyproject.toml
+├── requirements.txt
+└── README.md
 
 ## Getting Started
 
@@ -143,9 +153,25 @@ Open:
 
     http://127.0.0.1:8000/redoc
 
-## Authentication
+# Authentication
 
 The API uses **JWT bearer authentication** to protect task endpoints.
+
+### Authentication Flow
+
+    Create User
+         │
+         ▼
+       Login
+         │
+         ▼
+    Receive JWT Token
+         │
+         ▼
+    Send Token with Requests
+         │
+         ▼
+    Access Protected Endpoints
 
 First, create a user through the user registration endpoint.
 
