@@ -11,13 +11,25 @@
   <img src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="Pytest">
   <img src="https://img.shields.io/badge/Uvicorn-499848?style=for-the-badge" alt="Uvicorn">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
 </p>
+
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#project-structure">Project Structure</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#testing">Testing</a> •
+  <a href="#docker">Docker</a>
+</p>
+
+---
 
 A RESTful API for managing tasks and users, built with **FastAPI** and **PostgreSQL**.
 
 The project provides JWT-based authentication, user-specific task management, database migrations with Alembic, request validation with Pydantic, and automated testing with pytest.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |:---|:---|
@@ -32,7 +44,7 @@ The project provides JWT-based authentication, user-specific task management, da
 | **Uvicorn** | ASGI server |
 | **Docker** | Containerization |
 
-## Features
+## ✨ Features
 
 - User registration
 - JWT-based authentication
@@ -49,7 +61,7 @@ The project provides JWT-based authentication, user-specific task management, da
 - Interactive API documentation with Swagger UI and ReDoc
 - Automated tests with pytest
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 task-management-api/
@@ -87,7 +99,7 @@ task-management-api/
 └── README.md
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### 1. Clone the repository
 
@@ -137,7 +149,7 @@ The API will be available at:
 
     http://127.0.0.1:8000
 
-## API Documentation
+## 📚 API Documentation
 
 FastAPI automatically generates interactive API documentation.
 
@@ -155,7 +167,7 @@ Open:
 
     http://127.0.0.1:8000/redoc
 
-# Authentication
+# 🔐 Authentication
 
 The API uses **JWT bearer authentication** to protect task endpoints.
 
@@ -187,7 +199,7 @@ In Swagger UI, click **Authorize** and provide the required authentication crede
 
 Protected endpoints require a valid JWT token.
 
-## API Examples
+## 📝 API Examples
 
 ### Create a User
 
@@ -234,7 +246,7 @@ Protected endpoints require a valid JWT token.
       "due_date": null
     }
 
-## Database Migrations
+## 🔄 Database Migrations
 
 The project uses **Alembic** to manage database schema changes.
 
@@ -250,7 +262,7 @@ Roll back the latest migration:
 
     alembic downgrade -1
 
-## Testing
+## 🧪 Testing
 
 Run the test suite with:
 
@@ -262,7 +274,7 @@ For more detailed output:
 
 The tests cover the API functionality and help ensure that existing behavior remains stable when the project is changed.
 
-## Environment Variables
+## 🔒 Environment Variables
 
 | Variable | Description |
 |---|---|
@@ -271,7 +283,7 @@ The tests cover the API functionality and help ensure that existing behavior rem
 
 > **Security:** Never commit real credentials, secret keys, database passwords, or other sensitive configuration to the repository.
 
-## Docker
+## 🐳 Docker
 
 The project includes Docker configuration for running the API and PostgreSQL together.
 
