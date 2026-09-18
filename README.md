@@ -51,7 +51,8 @@ The project provides JWT-based authentication, user-specific task management, da
 
 ## Project Structure
 
- task-management-api/
+```text
+task-management-api/
 │
 ├── .github/
 │   └── workflows/
@@ -84,6 +85,7 @@ The project provides JWT-based authentication, user-specific task management, da
 ├── pyproject.toml
 ├── requirements.txt
 └── README.md
+```
 
 ## Getting Started
 
