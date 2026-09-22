@@ -43,6 +43,7 @@ The project provides JWT-based authentication, user-specific task management, da
 | **Pytest** | Automated testing |
 | **Uvicorn** | ASGI server |
 | **Docker** | Containerization |
+| **GitHub Actions** | Continuous integration |
 
 ## ✨ Features
 
@@ -285,7 +286,7 @@ The tests cover the API functionality and help ensure that existing behavior rem
 
 ## 🐳 Docker
 
-The project includes Docker configuration for running the API and PostgreSQL together.
+The project includes Docker configuration for running the API and PostgreSQL together. Database migrations are applied automatically when the API container starts.
 
 Start the containers with:
 
