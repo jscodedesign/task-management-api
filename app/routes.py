@@ -27,7 +27,7 @@ router = APIRouter()
 # USERS
 # =========================
 
-@router.post("/users", response_model=UserResponse)
+@router.post("/users", response_model=UserResponse, status_code=201)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.execute(
         select(User).where(User.username == user.username)
